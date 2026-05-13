@@ -12,7 +12,7 @@ const Navbar = () => {
             width={24}
             height={24}
           />
-          <p>DevEvents</p>
+          <p>DevEvent</p>
         </Link>
 
         <ul>
