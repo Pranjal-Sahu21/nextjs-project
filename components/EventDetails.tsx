@@ -35,7 +35,7 @@ const EventAgenda = ({ agendaItems }: { agendaItems: string[] }) => (
 );
 
 const EventTags = ({ tags }: { tags: string[] }) => (
-  <div className="flex flex-row gap-1.5 flex-wrap">
+  <div className="flex flex-row gap-2 flex-wrap">
     {tags.map((tag) => (
       <div className="pill" key={tag}>
         {tag}
@@ -74,6 +74,7 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
   }
 
   const {
+    title,
     description,
     image,
     overview,
@@ -96,7 +97,7 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
   return (
     <section id="event">
       <div className="header">
-        <h1>Event Description</h1>
+        <h1>{title}</h1>
         <p>{description}</p>
       </div>
 
@@ -161,15 +162,16 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
         </aside>
       </div>
 
-      <div className="flex w-full flex-col gap-4 pt-20">
-        <h2>Similar Events</h2>
-        <div className="events">
-          {similarEvents.length > 0 &&
-            similarEvents.map((similarEvent: IEvent) => (
+      {similarEvents.length > 0 && (
+        <div className="flex w-full flex-col gap-6 pt-20">
+          <h2>Similar Events</h2>
+          <div className="events">
+            {similarEvents.map((similarEvent: IEvent) => (
               <EventCard key={similarEvent.title} {...similarEvent} />
             ))}
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 };

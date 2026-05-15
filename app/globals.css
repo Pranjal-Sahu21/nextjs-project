@@ -53,6 +53,8 @@
   --color-border-dark: var(--color-border-dark);
   --color-dark-100: var(--color-dark-100);
   --color-dark-200: var(--color-dark-200);
+  --font-inter: var(--font-inter);
+  --font-space-grotesk: var(--font-space-grotesk);
   --font-schibsted-grotesk: var(--font-schibsted-grotesk);
   --font-martian-mono: var(--font-martian-mono);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -106,13 +108,54 @@
   box-shadow: 0px 4px 40px 0px #00000066;
 }
 
+/* ────────────────────────────────────────────
+   CUSTOM SCROLLBAR STYLING
+   ──────────────────────────────────────────── */
+/* For WebKit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-dark-200, #182830);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary, #59deca);
+  border-radius: 10px;
+  border: 2px solid var(--color-dark-200, #182830);
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7ae8d8;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--color-dark-200, #182830);
+}
+
+/* For Firefox */
+* {
+  scrollbar-color: var(--primary, #59deca) var(--color-dark-200, #182830);
+  scrollbar-width: thin;
+}
+
+/* ────────────────────────────────────────────
+   BASE LAYER — Typography & Global Resets
+   ──────────────────────────────────────────── */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   main {
@@ -120,11 +163,19 @@
   }
 
   h1 {
-    @apply text-gradient text-6xl font-semibold max-sm:text-4xl;
+    @apply text-gradient font-space-grotesk text-6xl font-bold max-sm:text-4xl tracking-tight leading-tight;
+  }
+
+  h2 {
+    @apply font-space-grotesk text-2xl font-bold tracking-tight;
   }
 
   h3 {
-    @apply font-schibsted-grotesk text-2xl font-bold;
+    @apply font-space-grotesk text-2xl font-bold tracking-tight;
+  }
+
+  p {
+    @apply font-inter leading-relaxed;
   }
 
   ul {
@@ -132,69 +183,137 @@
   }
 }
 
+/* ────────────────────────────────────────────
+   COMPONENT LAYER — All Styled Components
+   ──────────────────────────────────────────── */
 @layer components {
+
+  /* ═══ HOME PAGE ═══ */
   #home {
     .subheading {
-      @apply text-light-100 text-lg max-sm:text-sm text-center mt-5;
+      @apply text-light-100 text-lg max-sm:text-sm text-center mt-5 font-inter font-light;
     }
   }
 
   #explore-btn {
-    @apply border-dark-200 bg-dark-100 flex w-fit cursor-pointer  rounded-full border px-8 py-3.5 max-sm:w-full text-center;
+    @apply border-dark-200 bg-dark-100 flex w-fit cursor-pointer rounded-full border px-8 py-3.5 max-sm:w-full text-center transition-all duration-300 hover:border-primary/40 hover:shadow-[0_0_20px_rgba(89,222,202,0.15)];
 
     a {
-      @apply flex-center gap-2 text-center w-full;
+      @apply flex-center gap-2 text-center w-full font-inter font-medium text-[15px] tracking-wide;
     }
   }
 
+  /* ═══ NAVBAR ═══ */
   header {
     @apply glass sticky top-0 z-50;
 
     nav {
-      @apply flex flex-row justify-between mx-auto container sm:px-10 px-5 py-4;
+      @apply flex flex-row justify-between mx-auto container sm:px-10 px-5 py-4 items-center;
     }
 
     .logo {
-      @apply flex flex-row items-center gap-2;
+      @apply flex flex-row items-center gap-2.5;
 
       p {
-        @apply text-xl font-bold italic max-sm:hidden;
+        @apply text-xl font-space-grotesk font-bold italic max-sm:hidden tracking-tight;
       }
     }
 
     ul {
-      @apply flex flex-row items-center gap-6;
+      @apply flex flex-row items-center gap-1;
+    }
+
+    .nav-link {
+      @apply relative px-4 py-2 text-[14px] font-inter font-medium tracking-wide text-light-200 rounded-lg transition-all duration-300;
+    }
+
+    .nav-link:hover {
+      @apply text-white bg-white/[0.06];
     }
   }
 
+  /* ═══ EVENTS GRID ═══ */
   .events {
-    @apply grid md:grid-cols-3 gap-10 sm:grid-cols-2 grid-cols-1;
+    @apply grid md:grid-cols-3 gap-8 sm:grid-cols-2 grid-cols-1;
   }
 
+  /* ═══ EVENT CARD ═══ */
   #event-card {
-    @apply flex flex-col gap-3;
+    @apply flex flex-col gap-3 rounded-xl overflow-hidden transition-all duration-400 bg-dark-100/40 border border-transparent;
+
+    &:hover {
+      @apply border-primary/20 shadow-[0_8px_40px_rgba(89,222,202,0.08)] -translate-y-1;
+    }
 
     .poster {
-      @apply h-[300px] w-full rounded-lg object-cover;
+      @apply h-[260px] w-full object-cover transition-transform duration-500;
+    }
+
+    &:hover .poster {
+      @apply scale-[1.03];
+    }
+
+    .poster-wrap {
+      @apply overflow-hidden;
+    }
+
+    .card-body {
+      @apply px-4 pb-4 pt-1 flex flex-col gap-2.5;
     }
 
     .title {
-      @apply text-[20px] font-semibold line-clamp-1;
+      @apply text-[18px] font-space-grotesk font-semibold line-clamp-1 tracking-tight;
     }
 
     p {
-      @apply text-light-200 text-sm font-light;
+      @apply text-light-200 text-[13px] font-inter font-normal;
     }
 
     .datetime {
-      @apply text-light-200 flex flex-row flex-wrap items-center gap-4;
+      @apply text-light-200 flex flex-row flex-wrap items-center gap-4 text-[13px];
 
       div {
-        @apply flex flex-row gap-2;
+        @apply flex flex-row gap-2 items-center;
+      }
+    }
+
+    .card-location {
+      @apply flex flex-row gap-2 items-center;
+    }
+  }
+
+  /* ═══ EVENTS PAGE ═══ */
+  #events-page {
+    .events-page-header {
+      @apply text-center mb-14;
+    }
+
+    .events-page-label {
+      @apply font-martian-mono text-primary text-xs uppercase tracking-[0.2em] mb-4 font-medium;
+    }
+
+    .events-page-subtitle {
+      @apply text-light-200 text-lg max-sm:text-sm mt-4 max-w-2xl mx-auto font-inter font-light leading-relaxed;
+    }
+
+    .events-page-count {
+      @apply mb-8 font-inter text-sm text-light-200;
+
+      span {
+        @apply text-primary font-semibold text-base;
+      }
+    }
+
+    .events-empty {
+      @apply flex-center py-20;
+
+      p {
+        @apply text-light-200 text-lg font-inter;
       }
     }
   }
 
+  /* ═══ EVENT DETAIL PAGE ═══ */
   #event {
     .header {
       @apply flex w-2/3 flex-col items-start gap-4 max-lg:w-full mb-10;
@@ -204,42 +323,42 @@
       @apply flex w-full flex-col lg:flex-row gap-12 items-start mt-12 max-lg:items-center;
 
       .content {
-        @apply flex flex-[2] flex-col gap-8 max-lg:w-full;
+        @apply flex flex-[2] flex-col gap-10 max-lg:w-full;
 
         .banner {
-          @apply max-h-[457px] w-full rounded-lg object-cover;
+          @apply max-h-[457px] w-full rounded-xl object-cover;
         }
 
         .agenda {
-          @apply flex flex-col gap-2;
+          @apply flex flex-col gap-3;
 
           ul {
             li {
-              @apply text-light-100 text-lg max-sm:text-sm;
+              @apply text-light-100 text-[16px] font-inter leading-relaxed max-sm:text-sm;
             }
           }
         }
       }
 
       .booking {
-        @apply flex-1 w-full p-4 border-l border-gray-700;
+        @apply flex-1 w-full p-4 border-l border-gray-700/50;
 
         .signup-card {
-          @apply bg-dark-100 border-dark-200 card-shadow flex w-full flex-col gap-6 rounded-[10px] border px-5 py-6;
+          @apply bg-dark-100 border-dark-200 card-shadow flex w-full flex-col gap-6 rounded-xl border px-6 py-7;
         }
       }
     }
 
     h2 {
-      @apply font-schibsted-grotesk text-2xl font-bold;
+      @apply font-space-grotesk text-2xl font-bold tracking-tight;
     }
 
     p {
-      @apply text-light-100 text-lg max-sm:text-sm;
+      @apply text-light-100 text-[16px] font-inter leading-relaxed max-sm:text-sm;
     }
 
     .flex-col-gap-2 {
-      @apply flex flex-col gap-2;
+      @apply flex flex-col gap-3;
     }
 
     .flex-row-gap-2 {
@@ -247,10 +366,12 @@
     }
   }
 
+  /* ═══ PILL TAGS ═══ */
   .pill {
-    @apply bg-dark-100 text-light-100 text-xs rounded-[6px] px-5 py-2;
+    @apply bg-dark-100 text-light-100 text-xs font-inter font-medium rounded-full px-4 py-1.5 border border-dark-200 transition-colors duration-200 hover:border-primary/30 hover:text-primary;
   }
 
+  /* ═══ BOOKING FORM ═══ */
   #book-event {
     @apply flex flex-col gap-6;
 
@@ -260,14 +381,121 @@
       div {
         @apply flex flex-col gap-2;
 
+        label {
+          @apply font-inter text-sm font-medium text-light-100 tracking-wide;
+        }
+
         input {
-          @apply bg-dark-200 rounded-[6px] px-5 py-2.5;
+          @apply bg-dark-200 rounded-lg px-4 py-3 font-inter text-sm placeholder:text-light-200/50 border border-transparent transition-all duration-200 focus:border-primary/40 focus:outline-none focus:ring-1 focus:ring-primary/20;
         }
       }
 
       button {
-        @apply bg-primary hover:bg-primary/90 w-full cursor-pointer items-center justify-center rounded-[6px] px-4 py-2.5 text-lg font-semibold text-black;
+        @apply bg-primary hover:bg-primary/90 w-full cursor-pointer items-center justify-center rounded-lg px-4 py-3 text-base font-space-grotesk font-bold text-black tracking-tight transition-all duration-200 hover:shadow-[0_0_20px_rgba(89,222,202,0.3)];
       }
     }
+  }
+
+  /* ═══ ACCORDION ═══ */
+  .accordion-list {
+    @apply flex flex-col gap-3;
+  }
+
+  .accordion-item {
+    @apply rounded-xl border border-dark-200/60 bg-dark-100/30 overflow-hidden transition-all duration-300;
+
+    &:hover {
+      @apply border-dark-200;
+    }
+
+    &.accordion-open {
+      @apply border-primary/25 bg-dark-100/50 shadow-[0_4px_30px_rgba(89,222,202,0.06)];
+    }
+  }
+
+  .accordion-trigger {
+    @apply w-full flex flex-row items-center justify-between px-6 py-5 cursor-pointer text-left bg-transparent border-none outline-none transition-colors duration-200 max-sm:px-4 max-sm:py-4;
+  }
+
+  .accordion-summary {
+    @apply flex flex-row items-center gap-5 max-sm:gap-3 flex-1 min-w-0;
+  }
+
+  .accordion-number {
+    @apply font-martian-mono text-sm text-primary/50 font-medium shrink-0;
+  }
+
+  .accordion-info {
+    @apply flex flex-col gap-1.5 min-w-0;
+  }
+
+  .accordion-title {
+    @apply font-space-grotesk text-lg font-semibold tracking-tight text-white truncate max-sm:text-base;
+  }
+
+  .accordion-meta {
+    @apply flex flex-row flex-wrap items-center gap-3 max-sm:gap-2;
+  }
+
+  .accordion-meta-item {
+    @apply flex flex-row items-center gap-1.5 text-light-200 text-[13px] font-inter max-sm:text-xs;
+  }
+
+  .accordion-mode-pill {
+    @apply bg-primary/10 text-primary border border-primary/20 rounded-full px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider;
+  }
+
+  .accordion-chevron {
+    @apply text-light-200 transition-transform duration-300 shrink-0 ml-4;
+  }
+
+  .accordion-content-wrapper {
+    @apply overflow-hidden transition-all duration-400 ease-in-out;
+  }
+
+  .accordion-content {
+    @apply px-6 pb-6 pt-2 max-sm:px-4 max-sm:pb-4;
+    border-top: 1px solid rgba(24, 40, 48, 0.8);
+  }
+
+  .accordion-expanded-layout {
+    @apply flex flex-row gap-8 mt-4 max-md:flex-col max-md:gap-5;
+  }
+
+  .accordion-image-wrap {
+    @apply shrink-0;
+  }
+
+  .accordion-image {
+    @apply w-[280px] h-[180px] max-md:w-full max-md:h-[200px] object-cover rounded-lg;
+  }
+
+  .accordion-details {
+    @apply flex flex-col gap-4 flex-1 min-w-0;
+  }
+
+  .accordion-description {
+    @apply font-inter text-[15px] text-light-100 leading-relaxed line-clamp-3;
+  }
+
+  .accordion-overview {
+    @apply font-inter text-[13px] text-light-200 leading-relaxed line-clamp-2;
+  }
+
+  .accordion-detail-row {
+    @apply flex flex-row items-center gap-2 text-light-200 text-[13px] font-inter;
+  }
+
+  .accordion-tags {
+    @apply flex flex-row flex-wrap gap-1.5;
+  }
+
+  .accordion-cta {
+    @apply inline-flex items-center gap-2 bg-primary text-black font-space-grotesk font-bold text-sm px-5 py-2.5 rounded-lg w-fit transition-all duration-200 hover:shadow-[0_0_20px_rgba(89,222,202,0.3)] hover:bg-primary/90 mt-1;
+  }
+
+  /* ═══ LOADING SKELETON ═══ */
+  .skeleton {
+    @apply bg-dark-200/60 rounded-lg animate-pulse;
   }
 }
