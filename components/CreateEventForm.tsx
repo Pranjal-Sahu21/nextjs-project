@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface FormData {
   title: string;
@@ -22,8 +23,6 @@ interface FormData {
 const CreateEventForm = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const [formData, setFormData] = useState<FormData>({
     title: "",
@@ -95,27 +94,25 @@ const CreateEventForm = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
     setLoading(true);
 
     if (!formData.title || !formData.description || !formData.overview) {
-      setError("Title, description, and overview are required");
+      toast.error("Validation Error", { description: "Title, description, and overview are required" });
       setLoading(false);
       return;
     }
     if (!formData.image) {
-      setError("Event image is required");
+      toast.error("Validation Error", { description: "Event image is required" });
       setLoading(false);
       return;
     }
     if (formData.tags.length === 0) {
-      setError("Add at least one tag");
+      toast.error("Validation Error", { description: "Add at least one tag" });
       setLoading(false);
       return;
     }
     if (formData.agenda.length === 0) {
-      setError("Add at least one agenda item");
+      toast.error("Validation Error", { description: "Add at least one agenda item" });
       setLoading(false);
       return;
     }
@@ -147,10 +144,10 @@ const CreateEventForm = () => {
         throw new Error(data.message || "Failed to create event");
       }
 
-      setSuccess("Event created successfully! Redirecting...");
+      toast.success("Event created successfully!", { description: "Redirecting to events page..." });
       setTimeout(() => router.push("/events"), 1500);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      toast.error("Creation Failed", { description: err instanceof Error ? err.message : "An error occurred" });
     } finally {
       setLoading(false);
     }
@@ -159,18 +156,6 @@ const CreateEventForm = () => {
   return (
     <div id="book-event">
       <form onSubmit={handleSubmit}>
-        {/* Alerts */}
-        {error && (
-          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm font-inter">
-            {error}
-          </div>
-        )}
-        {success && (
-          <div className="bg-primary/10 border border-primary/30 rounded-lg p-4 text-primary text-sm font-inter">
-            {success}
-          </div>
-        )}
-
         {/* ── Event Details ── */}
         <div className="flex flex-col gap-5">
           <h2>Event Details</h2>

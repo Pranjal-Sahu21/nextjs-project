@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import posthog from "posthog-js";
 
 const ExploreButton = () => {
@@ -14,15 +15,15 @@ const ExploreButton = () => {
         posthog.capture("explore_events_clicked");
       }}
     >
-      <a href="#events">
+      <Link href="/events">
         Explore Events{" "}
         <Image
-          src="/icons/arrow-down.svg"
-          alt="Arrow Down"
-          width={24}
-          height={24}
+          src="/icons/top-right-icon.svg"
+          alt="Top Right Icon"
+          width={17}
+          height={17}
         />
-      </a>
+      </Link>
     </button>
   );
 };

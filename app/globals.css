@@ -387,6 +387,13 @@
 
         input {
           @apply bg-dark-200 rounded-lg px-4 py-3 font-inter text-sm placeholder:text-light-200/50 border border-transparent transition-all duration-200 focus:border-primary/40 focus:outline-none focus:ring-1 focus:ring-primary/20;
+          color-scheme: dark;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="time"]::-webkit-calendar-picker-indicator {
+          filter: invert(1);
+          cursor: pointer;
         }
       }
 

@@ -72,11 +72,17 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const events = await Event.find().sort({ createdAt: -1 });
+    const { searchParams } = new URL(req.url);
+    const limit = parseInt(searchParams.get("limit") || "0", 10);
+
+    let query = Event.find().sort({ createdAt: -1 });
+    if (limit > 0) query = query.limit(limit);
+
+    const events = await query;
 
     return NextResponse.json(
       { message: "Events fetched successfully", events },
