@@ -70,7 +70,9 @@ export default function RootLayout({
         </div>
 
         <main>{children}</main>
-        <Footer />
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
         <Toaster
           position="bottom-right"
           toastOptions={{
