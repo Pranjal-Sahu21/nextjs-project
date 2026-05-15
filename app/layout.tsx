@@ -8,6 +8,7 @@ import {
 import "./globals.css";
 import LightRays from "@/components/ui/LightRays";
 import Navbar from "@/components/Navbar";
+import { Suspense } from "react";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -48,7 +49,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${schibstedGrotesk.variable} ${martianMono.variable} min-h-screen antialiased`}
       >
-        <Navbar />
+        <Suspense fallback={null}>
+          <Navbar />
+        </Suspense>
 
         <div className="absolute inset-0 top-0 z-[-1] min-h-screen">
           <LightRays
