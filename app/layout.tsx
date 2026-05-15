@@ -8,6 +8,7 @@ import {
 import "./globals.css";
 import LightRays from "@/components/ui/LightRays";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Toaster } from "sonner";
 import { Suspense } from "react";
 
@@ -69,6 +70,7 @@ export default function RootLayout({
         </div>
 
         <main>{children}</main>
+        <Footer />
         <Toaster
           position="bottom-right"
           toastOptions={{

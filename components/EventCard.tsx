@@ -41,7 +41,7 @@ const EventCard = ({ title, image, slug, location, date, time }: Props) => {
         <p className="title">{title}</p>
 
         <div className="card-location">
-          <Image src="/icons/pin.svg" alt="location" width={14} height={14} />
+          <Image src="/icons/pin.svg" alt="location" width={14} height={14} style={{ width: "auto", height: "auto" }} />
           <p>{location}</p>
         </div>
 
@@ -52,11 +52,12 @@ const EventCard = ({ title, image, slug, location, date, time }: Props) => {
               alt="date"
               width={14}
               height={14}
+              style={{ width: "auto", height: "auto" }}
             />
             <p>{date}</p>
           </div>
           <div>
-            <Image src="/icons/clock.svg" alt="time" width={14} height={14} />
+            <Image src="/icons/clock.svg" alt="time" width={14} height={14} style={{ width: "auto", height: "auto" }} />
             <p>{time}</p>
           </div>
         </div>
