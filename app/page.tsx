@@ -11,17 +11,17 @@ const Page = async () => {
   const { events } = await response.json();
 
   return (
-    <section>
+    <section id="home">
       <h1 className="text-center">
         The Hub For Every Dev <br />
-        Event You Can't Miss
+        Event You Can&apos;t Miss
       </h1>
-      <p className="text-center mt-5">
-        Hackathons, Meetups, and Conferences, All in One Place
+      <p className="subheading">
+        Hackathons, Meetups, and Conferences — All in One Place
       </p>
       <ExploreButton />
 
-      <div className="mt-20 space-y-7">
+      <div id="events" className="mt-20 space-y-8">
         <h3>Featured Events</h3>
         <ul className="events list-none">
           {events && events.length > 0 && events.map((event : IEvent) => (

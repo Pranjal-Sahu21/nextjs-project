@@ -1,17 +1,36 @@
 import type { Metadata } from "next";
-import { Schibsted_Grotesk, Martian_Mono } from "next/font/google";
+import {
+  Inter,
+  Space_Grotesk,
+  Schibsted_Grotesk,
+  Martian_Mono,
+} from "next/font/google";
 import "./globals.css";
 import LightRays from "@/components/ui/LightRays";
 import Navbar from "@/components/Navbar";
 
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 const schibstedGrotesk = Schibsted_Grotesk({
   variable: "--font-schibsted-grotesk",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const martianMono = Martian_Mono({
   variable: "--font-martian-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,9 +44,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ scrollBehavior: "smooth" }}>
       <body
-        className={`${schibstedGrotesk.variable} ${martianMono.variable} min-h-screen antialiased`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${schibstedGrotesk.variable} ${martianMono.variable} min-h-screen antialiased`}
       >
         <Navbar />
 
